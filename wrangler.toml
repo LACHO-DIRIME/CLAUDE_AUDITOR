@@ -1,6 +1,4 @@
-# wrangler.toml - Configuración Cloudflare para elpulsar.app
-# https://developers.cloudflare.com/workers/wrangler/configuration/
-
+# wrangler.toml - Configuración mínima para elpulsar.app
 name = "elpulsar-api"
 main = "worker.js"
 compatibility_date = "2026-01-01"
@@ -12,57 +10,7 @@ ENVIRONMENT = "production"
 VERSION = "1.0.0"
 CORS_ORIGIN = "*"
 
-# Secrets (configurar via wrangler secret put o GitHub Secrets)
-# Estos se configuran en el dashboard de Cloudflare o via CLI:
+# Secrets (configurar via wrangler secret put):
 # wrangler secret put SUPABASE_URL
-# wrangler secret put SUPABASE_KEY
+# wrangler secret put SUPABASE_KEY  
 # wrangler secret put MCP_TOKEN
-
-# KV Namespaces (si se necesitan)
-[[kv_namespaces]]
-binding = "ELPULSAR_KV"
-id = "elpulsar_kv_namespace_id"
-preview_id = "elpulsar_kv_preview_id"
-
-# D1 Database (si se necesita)
-[[d1_databases]]
-binding = "ELPULSAR_DB"
-database_name = "elpulsar-db"
-database_id = "elpulsar_d1_database_id"
-
-# R2 Buckets (si se necesitan)
-[[r2_buckets]]
-binding = "ELPULSAR_BUCKET"
-bucket_name = "elpulsar-assets"
-
-# Route personalizado para el dominio
-[[routes]]
-pattern = "api.elpulsar.app/*"
-custom_domain = true
-
-# Configuración de logs
-[observability]
-enabled = true
-head_sampling_rate = 1
-
-# Analytics
-[analytics]
-enabled = true
-
-# Límites de recursos
-[limits]
-cpu_ms = 50000
-
-# Build configuration
-[build]
-command = ""
-cwd = "."
-watch_dir = "src"
-
-# Minificación
-[minify]
-enabled = true
-
-# Source maps
-[source_maps]
-enabled = true
