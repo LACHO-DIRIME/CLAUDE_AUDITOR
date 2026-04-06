@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>elpulsar.app</title>
-  <link rel="stylesheet" href="/assets/css/windsurf-theme.css">
-  <script src="/assets/js/theme.js"></script>
-  <script src="/i18n/i18n.js"></script>
+  <link rel="stylesheet" href="assets/css/windsurf-theme.css">
+  <script src="assets/js/theme.js"></script>
+  <script src="i18n/i18n.js"></script>
 </head>
 <body>
   <div class="top-bar">
@@ -26,8 +26,8 @@
   <div class="container">
     <div class="nav">
       <a href="/">Dashboard</a>
-      <a href="/lastdinner.html">Last Dinner</a>
-      <a href="/mcp.html">MCP Registry</a>
+      <a href="lastdinner.html">Last Dinner</a>
+      <a href="mcp.html">MCP Registry</a>
       <a href="https://github.com/LACHO-DIRIME/CLAUDE_AUDITOR">GitHub</a>
     </div>
 
@@ -108,13 +108,13 @@
         <div class="phase" data-i18n="lastDinner.phases.seal">Seal</div>
       </div>
       <div style="text-align:center;margin-top:1rem">
-        <a href="/lastdinner.html" class="link-btn" data-i18n="lastDinner.open">→ Abrir Last Dinner</a>
+        <a href="lastdinner.html" class="link-btn" data-i18n="lastDinner.open">→ Abrir Last Dinner</a>
       </div>
     </div>
 
     <div class="links">
-      <a href="/lastdinner.html" data-i18n="nav.lastDinner">Last Dinner</a>
-      <a href="/mcp.html" data-i18n="nav.mcp">MCP Registry</a>
+      <a href="lastdinner.html" data-i18n="nav.lastDinner">Last Dinner</a>
+      <a href="mcp.html" data-i18n="nav.mcp">MCP Registry</a>
       <a href="https://github.com/LACHO-DIRIME/CLAUDE_AUDITOR">GitHub</a>
     </div>
 
@@ -136,7 +136,7 @@
 
     async function fetchStatus() {
       try {
-        const res = await fetch('/api/notaria/status');
+        const res = await fetch('api/notaria/status');
         const data = await res.json();
         document.getElementById('scalar').textContent = data.scalar_s?.toFixed(2) || '0.88';
         document.getElementById('cristales').textContent = data.cristales || '42';
@@ -147,7 +147,7 @@
 
     async function loadGreenTerms() {
       try {
-        const res = await fetch('/api/greenknowledge');
+        const res = await fetch('api/greenknowledge');
         const data = await res.json();
         if (data.terms) {
           const container = document.getElementById('green-terms');
