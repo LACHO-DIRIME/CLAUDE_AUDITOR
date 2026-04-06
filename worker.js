@@ -1,1 +1,0 @@
-/media/Personal/ESPACIO_LACHO_LOW_RAM/SUITE_ZZZ/DEPLOY/cloudflare/cloudflare-worker.js
