@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>elpulsar.app</title>
+  <link rel="stylesheet" href="/assets/css/windsurf-theme.css">
+  <script src="/assets/js/theme.js"></script>
+  <script src="/i18n/i18n.js"></script>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="lang-toggle">
+      <button class="lang-btn" onclick="i18n.switchLanguage('en')">EN</button>
+      <button class="lang-btn active" onclick="i18n.switchLanguage('es')">ES</button>
+      <button class="lang-btn" onclick="i18n.switchLanguage('zh')">中文</button>
+    </div>
+    <div class="theme-toggle">
+      <button class="theme-btn" onclick="toggleTheme()">
+        <span id="theme-icon">🌙</span>
+        <span id="theme-label">Dark</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="nav">
+      <a href="/">Dashboard</a>
+      <a href="/lastdinner.html">Last Dinner</a>
+      <a href="/mcp.html">MCP Registry</a>
+      <a href="https://github.com/LACHO-DIRIME/CLAUDE_AUDITOR">GitHub</a>
+    </div>
+
+    <header>
+      <h1>elpulsar.app</h1>
+      <p class="tagline" data-i18n="dashboard.subtitle">Sistema Soberano · v0.5.0</p>
+    </header>
+
+    <div class="status-grid">
+      <div class="status-card">
+        <h3 data-i18n="status.active">Estado</h3>
+        <div class="value ok" id="health">● Activo</div>
+      </div>
+      <div class="status-card">
+        <h3 data-i18n="dashboard.scalar">Scalar S</h3>
+        <div class="value ok" id="scalar">0.88</div>
+      </div>
+      <div class="status-card">
+        <h3 data-i18n="dashboard.cristales">Cristales</h3>
+        <div class="value" id="cristales">42</div>
+      </div>
+      <div class="status-card">
+        <h3 data-i18n="dashboard.seal">SEAL</h3>
+        <div class="value ok" id="seal">● Activo</div>
+      </div>
+    </div>
+
+    <div class="green-section">
+      <h2 data-i18n="greenKnowledge.title">🌱 Green Knowledge</h2>
+      <p data-i18n="greenKnowledge.subtitle">Conocimiento Sostenible del Ecosistema</p>
+      <div class="terms-grid" id="green-terms"></div>
+    </div>
+
+    <div class="green-section">
+      <h2 data-i18n="nav.agents">🛰️ Agents Satellitals</h2>
+      <p data-i18n="agents.subtitle">Agentes activos en ecosistema LACHO</p>
+      <div class="status-grid" id="agents-container">
+        <div class="status-card">
+          <h3>corpus_indexer</h3>
+          <div class="value">IDLE · 🔒 SEAL</div>
+        </div>
+        <div class="status-card">
+          <h3>scheduler_master</h3>
+          <div class="value">ACTIVE · 🔒 SEAL</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="green-section">
+      <h2 data-i18n="nav.mcp">🔌 MCP Servers</h2>
+      <p data-i18n="mcp.subtitle">Model Context Protocol Registry</p>
+      <div class="status-grid" id="mcp-container">
+        <div class="status-card">
+          <h3>elpulsar-mcp</h3>
+          <div class="value">● Active</div>
+          <div style="margin-top:0.5rem;font-size:0.8rem;color:var(--text-tertiary)">
+            Tools: elpulsar_health, elpulsar_scalar, elpulsar_list_resources
+          </div>
+        </div>
+        <div class="status-card">
+          <h3>dirime-mcp</h3>
+          <div class="value">● Active</div>
+          <div style="margin-top:0.5rem;font-size:0.8rem;color:var(--text-tertiary)">
+            Tools: dirime_get_state, dirime_run_agent
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="green-section">
+      <h2 data-i18n="lastDinner.title">🍽️ Last Dinner Protocol</h2>
+      <p data-i18n="lastDinner.subtitle">Protocolo de Reunion Soberana · Teaching Agents</p>
+      <div class="phase-indicator" style="margin-top:1rem">
+        <div class="phase" data-i18n="lastDinner.phases.closed">Closed</div>
+        <div class="phase" data-i18n="lastDinner.phases.convocatoria">Convocatoria</div>
+        <div class="phase" data-i18n="lastDinner.phases.enseñanza">Enseñanza</div>
+        <div class="phase" data-i18n="lastDinner.phases.sintesis">Sintesis</div>
+        <div class="phase" data-i18n="lastDinner.phases.seal">Seal</div>
+      </div>
+      <div style="text-align:center;margin-top:1rem">
+        <a href="/lastdinner.html" class="link-btn" data-i18n="lastDinner.open">→ Abrir Last Dinner</a>
+      </div>
+    </div>
+
+    <div class="links">
+      <a href="/lastdinner.html" data-i18n="nav.lastDinner">Last Dinner</a>
+      <a href="/mcp.html" data-i18n="nav.mcp">MCP Registry</a>
+      <a href="https://github.com/LACHO-DIRIME/CLAUDE_AUDITOR">GitHub</a>
+    </div>
+
+    <footer>
+      <p data-i18n="footer.termActive">[term] :: activo · [seal of secrecy] :: activo</p>
+      <p>SPRINT 6 & 7 · MASTERKIT v1.0</p>
+    </footer>
+  </div>
+
+  <script>
+    function updateLangButtons() {
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.textContent.toLowerCase().includes(i18n.currentLang)) {
+          btn.classList.add('active');
+        }
+      });
+    }
+
+    async function fetchStatus() {
+      try {
+        const res = await fetch('/api/notaria/status');
+        const data = await res.json();
+        document.getElementById('scalar').textContent = data.scalar_s?.toFixed(2) || '0.88';
+        document.getElementById('cristales').textContent = data.cristales || '42';
+      } catch (e) {
+        console.log('API not available yet');
+      }
+    }
+
+    async function loadGreenTerms() {
+      try {
+        const res = await fetch('/api/greenknowledge');
+        const data = await res.json();
+        if (data.terms) {
+          const container = document.getElementById('green-terms');
+          container.innerHTML = data.terms.map(t => `
+            <div class="term-card">
+              <div class="key">${t.key}</div>
+              <div class="translations">
+                <div>EN: ${t.en}</div>
+                <div>ZH: ${t.zh}</div>
+                <div>ES: ${t.es}</div>
+              </div>
+            </div>
+          `).join('');
+        }
+      } catch (e) {
+        console.log('GreenKnowledge API not available');
+      }
+    }
+
+    fetchStatus();
+    loadGreenTerms();
+    setInterval(fetchStatus, 30000);
+    window.addEventListener('hashchange', updateLangButtons);
+    setTimeout(updateLangButtons, 100);
+  </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "lastDinner": "Last Dinner",
+    "mcp": "MCP Registry",
+    "resources": "Recursos",
+    "agents": "Agents Satellitals"
+  },
+  "status": {
+    "active": "Activo",
+    "inactive": "Inactivo",
+    "sealed": "Sellado",
+    "idle": "Inactivo"
+  },
+  "dashboard": {
+    "title": "elpulsar.app",
+    "subtitle": "Sistema Soberano",
+    "scalar": "Scalar S",
+    "cristales": "Cristales",
+    "seal": "SEAL",
+    "term": "Término"
+  },
+  "lastDinner": {
+    "title": "Last Dinner",
+    "subtitle": "Protocolo de Reunión Soberana",
+    "phases": {
+      "closed": "Cerrado",
+      "convocatoria": "Convocatoria",
+      "enseñanza": "Enseñanza",
+      "sintesis": "Síntesis",
+      "seal": "Sello"
+    },
+    "agents": "Agentes",
+    "teach": "Enseñar",
+    "synthesis": "Documento de Síntesis",
+    "applySeal": "Aplicar SEAL",
+    "open": "Abrir Last Dinner"
+  },
+  "mcp": {
+    "title": "MCP Registry",
+    "subtitle": "Servidores Model Context Protocol",
+    "whatIsMCP": "¿Qué es MCP?",
+    "mcpDescription": "Model Context Protocol permite que Claude y otros LLMs se conecten directamente a herramientas y recursos de elpulsar.app.",
+    "tools": "Tools",
+    "config": "Configuración para Claude Desktop"
+  },
+  "agents": {
+    "subtitle": "Agentes activos en ecosistema LACHO"
+  },
+  "greenKnowledge": {
+    "title": "Green Knowledge",
+    "subtitle": "Conocimiento Sostenible del Ecosistema"
+  },
+  "footer": {
+    "termActive": "[term] :: activo",
+    "sealActive": "[seal of secrecy] :: activo",
+    "sprint": "SPRINT {sprint}"
+  }
+}

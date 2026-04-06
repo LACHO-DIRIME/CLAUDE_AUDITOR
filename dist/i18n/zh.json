@@ -1,0 +1,59 @@
+{
+  "nav": {
+    "home": "首页",
+    "lastDinner": "Last Dinner",
+    "mcp": "MCP注册表",
+    "resources": "资源",
+    "agents": "卫星代理"
+  },
+  "status": {
+    "active": "活跃",
+    "inactive": "非活跃",
+    "sealed": "密封",
+    "idle": "空闲"
+  },
+  "dashboard": {
+    "title": "elpulsar.app",
+    "subtitle": "主权系统",
+    "scalar": "标量S",
+    "cristales": "晶体",
+    "seal": "印章",
+    "term": "术语"
+  },
+  "lastDinner": {
+    "title": "Last Dinner",
+    "subtitle": "主权会议协议",
+    "phases": {
+      "closed": "关闭",
+      "convocatoria": "召集",
+      "enseñanza": "教学",
+      "sintesis": "综合",
+      "seal": "印章"
+    },
+    "agents": "代理",
+    "teach": "教学",
+    "synthesis": "综合文档",
+    "applySeal": "应用印章",
+    "open": "打开 Last Dinner"
+  },
+  "mcp": {
+    "title": "MCP注册表",
+    "subtitle": "模型上下文协议服务器",
+    "whatIsMCP": "什么是MCP？",
+    "mcpDescription": "模型上下文协议允许Claude和其他LLM直接连接到elpulsar.app的工具和资源。",
+    "tools": "工具",
+    "config": "Claude桌面配置"
+  },
+  "agents": {
+    "subtitle": "LACHO生态系统中的活跃代理"
+  },
+  "greenKnowledge": {
+    "title": "绿色知识",
+    "subtitle": "可持续生态系统知识"
+  },
+  "footer": {
+    "termActive": "[term] :: 活跃",
+    "sealActive": "[seal of secrecy] :: 活跃",
+    "sprint": "冲刺{sprint}"
+  }
+}

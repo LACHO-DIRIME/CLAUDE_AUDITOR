@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Last Dinner · elpulsar.app</title>
+  <link rel="stylesheet" href="/assets/css/windsurf-theme.css">
+  <script src="/assets/js/theme.js"></script>
+  <script src="/i18n/i18n.js"></script>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="lang-toggle">
+      <button class="lang-btn" onclick="switchLang('en')">EN</button>
+      <button class="lang-btn active" onclick="switchLang('es')">ES</button>
+      <button class="lang-btn" onclick="switchLang('zh')">中文</button>
+    </div>
+    <div class="theme-toggle">
+      <button class="theme-btn" onclick="toggleTheme()">
+        <span id="theme-icon">🌙</span>
+        <span id="theme-label">Dark</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="nav">
+      <a href="/">← Dashboard</a>
+      <a href="/mcp.html">MCP Registry →</a>
+    </div>
+
+    <header>
+      <h1>🍽️ <span data-i18n="lastDinner.title">LAST_DINNER</span></h1>
+      <p class="tagline" data-i18n="lastDinner.subtitle">Protocolo de Reunion Soberana · Teaching Agents</p>
+    </header>
+
+    <div class="phase-indicator">
+      <div class="phase" id="phase-closed" data-i18n="lastDinner.phases.closed">Closed</div>
+      <div class="phase" id="phase-convocatoria" data-i18n="lastDinner.phases.convocatoria">Convocatoria</div>
+      <div class="phase" id="phase-enseñanza" data-i18n="lastDinner.phases.enseñanza">Enseñanza</div>
+      <div class="phase" id="phase-sintesis" data-i18n="lastDinner.phases.sintesis">Sintesis</div>
+      <div class="phase" id="phase-seal" data-i18n="lastDinner.phases.seal">Seal</div>
+    </div>
+
+    <div id="gate-warning" class="gate-warning" style="display: none;">
+      ⚠️ GATE BLOQUEADO: Prerequisites no met
+    </div>
+
+    <div class="agents-grid" id="agents-container"></div>
+
+    <div class="synthesis-box" id="synthesis-box" style="display: none;">
+      <h3 data-i18n="lastDinner.synthesis">📜 Documento de Sintesis</h3>
+      <div id="synthesis-content" data-i18n="lastDinner.waitingSynthesis">Esperando fase de sintesis...</div>
+    </div>
+
+    <div class="seal-box" id="seal-box" style="display: none;">
+      <h3 data-i18n="lastDinner.sealTitle">🔒 SEAL OF SECRECY</h3>
+      <div class="seal-hash" id="seal-hash">---</div>
+      <button class="btn-seal" id="btn-seal" onclick="applySeal()" disabled data-i18n="lastDinner.applySeal">
+        Sellar Sesion
+      </button>
+    </div>
+
+    <footer>
+      <p>SPRINT 7 · S1 · <span data-i18n="nav.lastDinner">Protocolo LAST_DINNER</span></p>
+      <p data-i18n="footer.termActive">[term] :: activo · [seal of secrecy] :: activo</p>
+    </footer>
+  </div>
+
+  <script>
+    let currentPhase = 'CLOSED';
+    let agentsData = [];
+    let teachings = [];
+
+    async function loadStatus() {
+      try {
+        const res = await fetch('/api/lastdinner/status');
+        const data = await res.json();
+        currentPhase = data.phase;
+        updatePhaseIndicator(data.phase);
+        if (!data.prerequisites_met) {
+          document.getElementById('gate-warning').style.display = 'block';
+        }
+      } catch (e) {
+        console.error('Error loading status:', e);
+      }
+    }
+
+    async function loadAgents() {
+      try {
+        const res = await fetch('/api/lastdinner/agents');
+        const data = await res.json();
+        agentsData = data.agents || [];
+        renderAgents();
+      } catch (e) {
+        console.error('Error loading agents:', e);
+        agentsData = [
+          { alias: 'corpus_indexer', status: 'IDLE', seal_active: true },
+          { alias: 'scheduler_master', status: 'ACTIVE', seal_active: true }
+        ];
+        renderAgents();
+      }
+    }
+
+    function updatePhaseIndicator(phase) {
+      const phases = ['closed', 'convocatoria', 'enseñanza', 'sintesis', 'seal'];
+      const phaseMap = { 'CLOSED': 0, 'CONVOCATORIA': 1, 'ENSEÑANZA': 2, 'SINTESIS': 3, 'SEAL': 4 };
+      const current = phaseMap[phase] || 0;
+      
+      phases.forEach((p, i) => {
+        const el = document.getElementById('phase-' + p);
+        el.classList.remove('active', 'completed');
+        if (i < current) el.classList.add('completed');
+        if (i === current) el.classList.add('active');
+      });
+
+      if (phase === 'SINTESIS') {
+        document.getElementById('synthesis-box').style.display = 'block';
+        document.getElementById('seal-box').style.display = 'block';
+      }
+    }
+
+    function renderAgents() {
+      const container = document.getElementById('agents-container');
+      container.innerHTML = agentsData.map(agent => `
+        <div class="agent-card">
+          <div class="agent-header">
+            <span class="agent-alias">${agent.alias}</span>
+            <span class="agent-status ${agent.seal_active ? 'seal-active' : 'idle'}">
+              ${agent.seal_active ? '🔒 SEAL' : agent.status}
+            </span>
+          </div>
+          <div>Domain: ${agent.alias === 'corpus_indexer' ? 'corpus_indexing' : 'scheduling'}</div>
+          <button class="teaching-btn" 
+                  onclick="requestTeaching('${agent.alias}')"
+                  ${currentPhase !== 'ENSEÑANZA' ? 'disabled' : ''}>
+            ${currentPhase === 'ENSEÑANZA' ? '📚 Enseñar' : 'Esperando fase...'}
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function requestTeaching(agentAlias) {
+      const teaching = {
+        agent: agentAlias,
+        knowledge: agentAlias === 'corpus_indexer' 
+          ? { terms_indexed: 42, files_processed: 12, domains: ['protocol', 'scheduler'] }
+          : { paths_active: 2, sprints_planned: 1, sessions_running: 1 },
+        timestamp: new Date().toISOString()
+      };
+      teachings.push(teaching);
+      
+      const synthesisContent = document.getElementById('synthesis-content');
+      synthesisContent.innerHTML = teachings.map(t => `
+        <div style="margin: 0.5rem 0; padding: 0.5rem; background: var(--bg-tertiary); border-radius: 4px;">
+          <strong>${t.agent}</strong>: ${Object.entries(t.knowledge).map(([k,v]) => `${k}=${v}`).join(', ')}
+        </div>
+      `).join('');
+      
+      if (teachings.length >= 2) {
+        document.getElementById('btn-seal').disabled = false;
+      }
+    }
+
+    function applySeal() {
+      const hash = 'SEAL_' + Math.random().toString(36).substring(2, 18).toUpperCase();
+      document.getElementById('seal-hash').textContent = hash;
+      document.getElementById('btn-seal').disabled = true;
+      document.getElementById('btn-seal').textContent = '✓ SELLADO';
+      updatePhaseIndicator('SEAL');
+    }
+
+    // Language persistence
+    function switchLang(lang) {
+      localStorage.setItem('elpulsar-lang', lang);
+      document.querySelectorAll('.lang-toggle .lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.textContent.toLowerCase().includes(lang)) {
+          btn.classList.add('active');
+        }
+      });
+      // Apply i18n translations
+      if (typeof i18n !== 'undefined') {
+        i18n.loadTranslations(lang).then(() => i18n.applyTranslations());
+      }
+    }
+    
+    // Init
+    const savedLang = localStorage.getItem('elpulsar-lang') || 'es';
+    switchLang(savedLang);
+    
+    loadStatus();
+    loadAgents();
+    setInterval(loadStatus, 10000);
+  </script>
+</body>
+</html>

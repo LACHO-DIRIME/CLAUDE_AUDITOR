@@ -1,0 +1,59 @@
+{
+  "nav": {
+    "home": "Home",
+    "lastDinner": "Last Dinner",
+    "mcp": "MCP Registry",
+    "resources": "Resources",
+    "agents": "Agents Satellitals"
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "sealed": "Sealed",
+    "idle": "Idle"
+  },
+  "dashboard": {
+    "title": "elpulsar.app",
+    "subtitle": "Sovereign System",
+    "scalar": "Scalar S",
+    "cristales": "Cristales",
+    "seal": "SEAL",
+    "term": "Term"
+  },
+  "lastDinner": {
+    "title": "Last Dinner",
+    "subtitle": "Sovereign Meeting Protocol",
+    "phases": {
+      "closed": "Closed",
+      "convocatoria": "Convocation",
+      "enseñanza": "Teaching",
+      "sintesis": "Synthesis",
+      "seal": "Seal"
+    },
+    "agents": "Agents",
+    "teach": "Teach",
+    "synthesis": "Synthesis Document",
+    "applySeal": "Apply SEAL",
+    "open": "Open Last Dinner"
+  },
+  "mcp": {
+    "title": "MCP Registry",
+    "subtitle": "Model Context Protocol Servers",
+    "whatIsMCP": "What is MCP?",
+    "mcpDescription": "Model Context Protocol allows Claude and other LLMs to connect directly to tools and resources from elpulsar.app.",
+    "tools": "Tools",
+    "config": "Configuration for Claude Desktop"
+  },
+  "agents": {
+    "subtitle": "Active agents in LACHO ecosystem"
+  },
+  "greenKnowledge": {
+    "title": "Green Knowledge",
+    "subtitle": "Sustainable Ecosystem Knowledge"
+  },
+  "footer": {
+    "termActive": "[term] :: active",
+    "sealActive": "[seal of secrecy] :: active",
+    "sprint": "SPRINT {sprint}"
+  }
+}

@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SUITE(ZZZ) — Estado del Proyecto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5f0e8;
+    --warm-white: #faf8f4;
+    --ink: #1a1610;
+    --ink-light: #3d3528;
+    --amber: #c8832a;
+    --amber-light: #e8a84a;
+    --amber-pale: #f5e4c0;
+    --rust: #9b4520;
+    --sage: #4a6741;
+    --sage-light: #6b9462;
+    --steel: #5a6872;
+    --steel-light: #8a9aa4;
+    --border: #d4c9b0;
+    --border-light: #ebe4d6;
+    --green-ok: #2d6a4f;
+    --yellow-mid: #b87d00;
+    --red-low: #8b2e10;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'IBM Plex Mono', monospace;
+    background: var(--warm-white);
+    color: var(--ink);
+    font-size: 13px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ─── PAPER TEXTURE ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 27px,
+        rgba(180,160,110,0.07) 28px
+      );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    position: relative;
+    border-bottom: 2px solid var(--ink);
+    padding: 0;
+    background: var(--cream);
+  }
+
+  .header-top {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-stamp {
+    padding: 18px 28px;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 180px;
+  }
+
+  .stamp-label {
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--steel-light);
+    font-weight: 500;
+  }
+
+  .stamp-value {
+    font-size: 11px;
+    color: var(--ink-light);
+    font-weight: 400;
+  }
+
+  .header-main {
+    flex: 1;
+    padding: 28px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .header-suite {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--amber);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+  }
+
+  h1 span {
+    color: var(--amber);
+  }
+
+  .header-sub {
+    font-size: 11px;
+    color: var(--steel);
+    margin-top: 8px;
+    font-style: italic;
+    font-family: 'Libre Baskerville', serif;
+  }
+
+  .header-status {
+    padding: 20px 28px;
+    border-left: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 8px;
+    min-width: 200px;
+  }
+
+  .overall-health {
+    text-align: right;
+  }
+
+  .health-label {
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--steel-light);
+    margin-bottom: 4px;
+  }
+
+  .health-pct {
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--green-ok);
+    line-height: 1;
+  }
+
+  .health-pct small {
+    font-size: 14px;
+    color: var(--steel);
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    background: var(--cream);
+  }
+
+  nav a {
+    padding: 12px 22px;
+    text-decoration: none;
+    color: var(--steel);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border-right: 1px solid var(--border-light);
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+
+  nav a:hover, nav a.active {
+    background: var(--ink);
+    color: var(--cream);
+  }
+
+  /* ─── MAIN LAYOUT ─── */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 32px;
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 32px;
+  }
+
+  /* ─── SECTIONS ─── */
+  section {
+    margin-bottom: 36px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .section-num {
+    font-size: 10px;
+    color: var(--steel-light);
+    letter-spacing: 0.1em;
+  }
+
+  /* ─── COMPONENT CARDS ─── */
+  .component-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  .comp-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .comp-card:hover {
+    border-color: var(--amber);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+
+  .comp-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--impl-color, var(--steel-light));
+  }
+
+  .comp-card.high { --impl-color: var(--green-ok); }
+  .comp-card.mid  { --impl-color: var(--yellow-mid); }
+  .comp-card.low  { --impl-color: var(--red-low); }
+
+  .comp-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+  }
+
+  .comp-desc {
+    font-size: 11px;
+    color: var(--steel);
+    line-height: 1.5;
+    margin-bottom: 12px;
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+  }
+
+  .comp-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--steel-light);
+  }
+
+  .comp-files {
+    letter-spacing: 0.05em;
+  }
+
+  /* PROGRESS BAR */
+  .progress-wrap {
+    height: 4px;
+    background: var(--border-light);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 10px;
+  }
+
+  .progress-bar {
+    height: 100%;
+    border-radius: 2px;
+    background: var(--bar-color, var(--amber));
+    transition: width 1s ease;
+  }
+
+  .pct-badge {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 2px;
+  }
+
+  .pct-high { background: #d1fae5; color: var(--green-ok); }
+  .pct-mid  { background: #fef3c7; color: var(--yellow-mid); }
+  .pct-low  { background: #fee2e2; color: var(--red-low); }
+
+  /* ─── METRICS ROW ─── */
+  .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
+
+  .metric-cell {
+    background: var(--cream);
+    padding: 20px;
+    text-align: center;
+  }
+
+  .metric-val {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--amber);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .metric-label {
+    font-size: 10px;
+    color: var(--steel-light);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ─── SIDEBAR ─── */
+  aside {
+    position: relative;
+  }
+
+  .sticky-aside {
+    position: sticky;
+    top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .aside-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    padding: 20px;
+  }
+
+  .aside-title {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--steel-light);
+    font-weight: 600;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  /* STATUS TABLE */
+  .status-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .status-table tr {
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .status-table tr:last-child {
+    border-bottom: none;
+  }
+
+  .status-table td {
+    padding: 7px 0;
+    font-size: 11px;
+    vertical-align: middle;
+  }
+
+  .status-table td:first-child {
+    color: var(--ink-light);
+    font-weight: 500;
+    width: 55%;
+  }
+
+  .status-table td:last-child {
+    text-align: right;
+    color: var(--steel);
+  }
+
+  .dot {
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+  .dot-green { background: var(--green-ok); }
+  .dot-yellow { background: var(--yellow-mid); }
+  .dot-red { background: var(--red-low); }
+
+  /* TASKS LIST */
+  .task-list {
+    list-style: none;
+  }
+
+  .task-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border-light);
+    font-size: 11px;
+    line-height: 1.4;
+    color: var(--ink-light);
+  }
+
+  .task-list li:last-child { border-bottom: none; }
+
+  .task-tick {
+    width: 14px; height: 14px;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-size: 9px;
+    color: var(--green-ok);
+    background: #d1fae5;
+  }
+
+  .task-tick.pending {
+    background: var(--cream);
+    color: transparent;
+  }
+
+  /* COMPATIBILITY BLOCK */
+  .compat-block {
+    background: #f0f7f4;
+    border: 1px solid #b7d8c8;
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+
+  .compat-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--green-ok);
+    margin-bottom: 8px;
+    font-family: 'Libre Baskerville', serif;
+  }
+
+  .compat-list {
+    list-style: none;
+    font-size: 10px;
+    color: var(--ink-light);
+    line-height: 2;
+  }
+
+  .compat-list li::before {
+    content: '✓ ';
+    color: var(--green-ok);
+    font-weight: 600;
+  }
+
+  /* TECH TAGS */
+  .tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .tech-tag {
+    background: var(--amber-pale);
+    color: var(--rust);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    padding: 3px 8px;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+
+  /* ARCHITECTURE DIAGRAM */
+  .arch-diagram {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    padding: 24px;
+    font-size: 11px;
+    line-height: 2;
+    color: var(--ink-light);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .arch-diagram pre {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    line-height: 1.8;
+    color: var(--ink);
+    white-space: pre;
+  }
+
+  .arch-node {
+    color: var(--amber);
+    font-weight: 600;
+  }
+
+  /* TESTS DISPLAY */
+  .tests-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-light);
+    font-size: 11px;
+  }
+
+  .tests-row:last-child { border-bottom: none; }
+
+  .test-name { flex: 1; color: var(--ink-light); }
+  .test-result {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+  }
+
+  .test-pass { color: var(--green-ok); background: #d1fae5; }
+  .test-count { color: var(--steel-light); }
+
+  /* MODIFY NOTICE */
+  .modify-notice {
+    background: linear-gradient(135deg, #fff9f0, #fef3e2);
+    border: 1px solid var(--amber-light);
+    border-left: 3px solid var(--amber);
+    padding: 16px 20px;
+    margin-bottom: 24px;
+  }
+
+  .modify-notice p {
+    font-size: 11px;
+    color: var(--ink-light);
+    line-height: 1.6;
+  }
+
+  .modify-notice strong {
+    color: var(--amber);
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 2px solid var(--ink);
+    padding: 20px 32px;
+    background: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--steel-light);
+    letter-spacing: 0.05em;
+  }
+
+  footer a {
+    color: var(--amber);
+    text-decoration: none;
+  }
+
+  /* ─── SCALE BARS ─── */
+  .scale-system {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .scale-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 50px;
+    align-items: center;
+    gap: 10px;
+    font-size: 10px;
+  }
+
+  .scale-name { color: var(--ink-light); font-weight: 500; }
+  .scale-track {
+    height: 6px;
+    background: var(--border-light);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .scale-fill {
+    height: 100%;
+    border-radius: 3px;
+    animation: fillIn 1.2s ease both;
+  }
+  .scale-pct { text-align: right; color: var(--steel); }
+
+  @keyframes fillIn {
+    from { width: 0 !important; }
+  }
+
+  .fill-95  { width: 95%;  background: var(--green-ok); }
+  .fill-90  { width: 90%;  background: var(--green-ok); }
+  .fill-85  { width: 85%;  background: var(--green-ok); }
+  .fill-80  { width: 80%;  background: var(--sage-light); }
+  .fill-75  { width: 75%;  background: var(--sage-light); }
+  .fill-70  { width: 70%;  background: var(--yellow-mid); }
+  .fill-50  { width: 50%;  background: var(--yellow-mid); }
+  .fill-45  { width: 45%;  background: var(--yellow-mid); }
+  .fill-40  { width: 40%;  background: var(--red-low); }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    main {
+      grid-template-columns: 1fr;
+      padding: 24px 16px;
+    }
+    .metrics-row { grid-template-columns: repeat(2, 1fr); }
+    .header-status { display: none; }
+    h1 { font-size: 22px; }
+  }
+
+  /* ANIMATE ON LOAD */
+  .fade-in {
+    animation: fadeUp 0.5s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  section:nth-child(1) { animation: fadeUp 0.4s 0.05s both; }
+  section:nth-child(2) { animation: fadeUp 0.4s 0.12s both; }
+  section:nth-child(3) { animation: fadeUp 0.4s 0.19s both; }
+  section:nth-child(4) { animation: fadeUp 0.4s 0.26s both; }
+  section:nth-child(5) { animation: fadeUp 0.4s 0.33s both; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="header-stamp">
+      <span class="stamp-label">Proyecto</span>
+      <span class="stamp-value">SUITE(ZZZ)</span>
+      <span class="stamp-label" style="margin-top:8px">Versión</span>
+      <span class="stamp-value">DIRIME v0.4.1 · LANG_IDE v0.1.0</span>
+      <span class="stamp-label" style="margin-top:8px">Fecha reporte</span>
+      <span class="stamp-value">2026-04-03</span>
+    </div>
+    <div class="header-main">
+      <div class="header-suite">Sistema Soberano de Lenguaje e IDE</div>
+      <h1>DIRIME <span>+</span> LACHO <span>+</span> LANG_IDE</h1>
+      <p class="header-sub">Estado actual del proyecto — para estudio, comprensión y decisión</p>
+    </div>
+    <div class="header-status">
+      <div class="overall-health">
+        <div class="health-label">Implementación global</div>
+        <div class="health-pct">87<small>%</small></div>
+      </div>
+      <div style="font-size:10px; color:var(--steel-light); text-align:right; line-height:1.6">
+        1,197 archivos analizados<br>
+        203/203 tests pasando<br>
+        3 subsistemas principales
+      </div>
+    </div>
+  </div>
+  <nav>
+    <a href="#resumen" class="active">Resumen</a>
+    <a href="#componentes">Componentes</a>
+    <a href="#arquitectura">Arquitectura</a>
+    <a href="#tests">Tests</a>
+    <a href="#tareas">Tareas</a>
+    <a href="#decisiones">Decisiones</a>
+  </nav>
+</header>
+
+<main>
+  <div id="content-col">
+
+    <!-- MODIFY NOTICE -->
+    <div class="modify-notice">
+      <strong>🤖 Nota de uso — Claude Auditor</strong>
+      <p>Este sitio fue generado y puede ser actualizado por Claude. Para modificarlo, pedile a Claude que actualice secciones específicas, agregue nuevos componentes, o revise el estado de implementación. El archivo <code>index.html</code> es auto-contenido y editable.</p>
+    </div>
+
+    <!-- MÉTRICAS GLOBALES -->
+    <section id="resumen">
+      <div class="section-header">
+        <span class="section-num">01</span>
+        <h2 class="section-title">Resumen Ejecutivo</h2>
+      </div>
+
+      <div class="metrics-row">
+        <div class="metric-cell">
+          <div class="metric-val">1,197</div>
+          <div class="metric-label">Archivos totales</div>
+        </div>
+        <div class="metric-cell">
+          <div class="metric-val">203</div>
+          <div class="metric-label">Tests pasando</div>
+        </div>
+        <div class="metric-cell">
+          <div class="metric-val">87%</div>
+          <div class="metric-label">Implementación</div>
+        </div>
+        <div class="metric-cell">
+          <div class="metric-val">0.248</div>
+          <div class="metric-label">Scalar S (req: &gt;0.20)</div>
+        </div>
+      </div>
+
+      <div class="compat-block">
+        <div class="compat-title">✓ PRAGMA DIGITAL v2.3.1 — 100% Compatible</div>
+        <ul class="compat-list">
+          <li>Paradigma soberano idéntico (DIRIME/LANG_IDE = MASTER/SLAVE)</li>
+          <li>Lenguaje LACHO reconocido como lenguaje de partida</li>
+          <li>Arquitectura AXIS = BOOTSTRAPPING Phase 5</li>
+          <li>Vocabulario SLAVE: 206 términos clasificados disponibles</li>
+        </ul>
+      </div>
+
+      <p style="font-family:'Libre Baskerville',serif; font-style:italic; color:var(--steel); font-size:12px; line-height:1.8">
+        El proyecto SUITE(ZZZ) implementa un ecosistema soberano compuesto por tres sistemas interdependientes: 
+        <strong style="color:var(--ink); font-style:normal">DIRIME</strong> (sistema operativo soberano), 
+        <strong style="color:var(--ink); font-style:normal">LACHO</strong> (lenguaje soberano con gramática formal), y 
+        <strong style="color:var(--ink); font-style:normal">LANG_IDE</strong> (entorno de desarrollo integrado). 
+        El estado actual indica una implementación avanzada con funcionalidad core operativa y tests completos.
+      </p>
+    </section>
+
+    <!-- COMPONENTES -->
+    <section id="componentes">
+      <div class="section-header">
+        <span class="section-num">02</span>
+        <h2 class="section-title">Estado de Componentes</h2>
+      </div>
+
+      <div class="component-grid">
+
+        <div class="comp-card high">
+          <div class="comp-name">DIRIME · Sistema IMV</div>
+          <div class="comp-desc">Sistema principal de máquina virtual de identidad. Core, API, config, datos e interfaz operativos.</div>
+          <div class="comp-meta">
+            <span class="comp-files">Parte de 823 archivos</span>
+            <span class="pct-badge pct-high">95%</span>
+          </div>
+          <div class="progress-wrap"><div class="progress-bar fill-95"></div></div>
+        </div>
+
+        <div class="comp-card high">
+          <div class="comp-name">DIRIME · RUNTIME</div>
+          <div class="comp-desc">Sistema de ejecución. Agentes, configuración, dashboards, programas y sesiones Theater activos.</div>
+          <div class="comp-meta">
+            <span class="comp-files">AGENTS, CONFIG, PROGRAMS, THEATER</span>
+            <span class="pct-badge pct-high">90%</span>
+          </div>
+          <div class="progress-wrap"><div class="progress-bar fill-90"></div></div>
+        </div>
+
+        <div class="comp-card high">
+          <div class="comp-name">LANG_IDE · CORE</div>
+          <div class="comp-desc">Gramática, lexer, parser y sistema de tokens del lenguaje LACHO. Totalmente implementado.</div>
+          <div class="comp-meta">
+            <span class="comp-files">124 archivos .py</span>
+            <span class="pct-badge pct-high">90%</span>
+          </div>
+          <div class="progress-wrap"><div class="progress-bar fill-90"></div></div>
+        </div>
+
+        <div class="comp-card high">
+          <div class="comp-name">DESIGN_MODE · Árbol</div>
+          <div class="comp-desc">Árbol de relevancia LACHO_DIRIME_ELPULSAR_KALIL con 26 categorías A-Z, 106 archivos.</div>
+          <div class="comp-meta">
+            <span class="comp-files">106 archivos, 592KB</span>
+            <span class="pct-badge pct-high">90%</span>
+          </div>
+          <div class="progress-wrap"><div class="progress-bar fill-90"></div></div>
+        </div>
+
+        <div class="comp-card high">
+          <div class="comp-name">DIRIME · CONTROL</div>
+          <div class="comp-desc">Sistema de control con 93 archivos .lacho generados y language_purity verificado.</div>
+          <div class="comp-meta">
+            <span class="comp-files">93 archivos .lacho</span>
+            <span class="pct-badge pct-high">85%</span>
+          </div>
+          <div class="progress-wrap"><div class="progress-bar fill-85"></div></div>
+        </div>
+
+        <div class="comp-card high">
+          <div class="comp-name">LANG_IDE · TOOLS</div>
+          <div class="comp-desc">Grammar.py, scanner, pragma_bridge. Herramientas del IDE completamente funcionales.</div>
+          <div class="comp-meta">
+            <span class="comp-files">scanner, pragma_bridge</span>
+            <span class="pct-badge pct-high">85%</span>
+          </div>
+          <div class="progress-wrap"><div class="progress-bar fill-85"></div></div>
+        </div>
+
+        <div class="comp-card high">
+          <div class="comp-name">DIRIME · RAG</div>
+          <div class="comp-desc">Sistema RAG funcional. Cristales, entrada y procesamiento activos. Indexación operativa.</div>
+          <div class="comp-meta">
+            <span class="comp-files">RAG/cristals, input, processed</span>
+            <span class="pct-badge pct-high">80%</span>
+          </div>
+          <div class="progress-wrap"><div class="progress-bar fill-80"></div></div>
+        </div>
+
+        <div class="comp-card high">
+          <div class="comp-name">MICRO · TRUST Foundation</div>
+          <div class="comp-desc">Módulos soberanos TRUST con verify_sovereign_conditions(), scope.json y term.json.</div>
+          <div class="comp-meta">
+            <span class="comp-files">12KB spec</span>
+            <span class="pct-badge pct-high">80%</span>
+          </div>
+          <div class="progress-wrap"><div class="progress-bar fill-80"></div></div>
+        </div>
+
+        <div class="comp-card high">
+          <div class="comp-name">LANG_IDE · SECURITY</div>
+          <div class="comp-desc">Seguridad cuántica post-quantum, compliance GDPR/CCPA/SOC2. 37/37 tests pasando.</div>
+          <div class="comp-meta">
+            <span class="comp-files">quantum, auth, compliance</span>
+            <span class="pct-badge pct-high">80%</span>
+          </div>
+          <div class="progress-wrap"><div class="progress-bar fill-80"></div></div>
+        </div>
+
+        <div class="comp-card mid">
+          <div class="comp-name">SISTEMAS Adicionales</div>
+          <div class="comp-desc">DOCS, DOCS-ar, INTEGRATION, JOURNAL, LEARNING, MAINTENANCE, TASKS. Soporte operativo.</div>
+          <div class="comp-meta">
+            <span class="comp-files">Sistemas de soporte</span>
+            <span class="pct-badge pct-mid">75%</span>
+          </div>
+          <div class="progress-wrap"><div class="progress-bar fill-75"></div></div>
+        </div>
+
+        <div class="comp-card mid">
+          <div class="comp-name">DEPLOY · Cloudflare</div>
+          <div class="comp-desc">Worker con integración real a backend DIRIME. Endpoints /scalar, /validate, /notaria activos.</div>
+          <div class="comp-meta">
+            <span class="comp-files">cloudflare-worker.js 245L</span>
+            <span class="pct-badge pct-mid">70%</span>
+          </div>
+          <div class="progress-wrap"><div class="progress-bar fill-70"></div></div>
+        </div>
+
+        <div class="comp-card mid">
+          <div class="comp-name">DEPLOY · Supabase</div>
+          <div class="comp-desc">Esquema SQL de base de datos para persistencia del sistema. Infraestructura lista.</div>
+          <div class="comp-meta">
+            <span class="comp-files">schema.sql</span>
+            <span class="pct-badge pct-mid">70%</span>
+          </div>
+          <div class="progress-wrap"><div class="progress-bar fill-70"></div></div>
+        </div>
+
+        <div class="comp-card mid">
+          <div class="comp-name">MICRO · STACKING Pilares</div>
+          <div class="comp-desc">11 pilares H02, H04, H1, H23, H29, H30, H48, H51, H52, H57, H58 implementados en TOOLS/axes/.</div>
+          <div class="comp-meta">
+            <span class="comp-files">22KB spec, 11 pilares</span>
+            <span class="pct-badge pct-mid">50%</span>
+          </div>
+          <div class="progress-wrap"><div class="progress-bar fill-50"></div></div>
+        </div>
+
+        <div class="comp-card mid">
+          <div class="comp-name">MICRO · SOCIAL</div>
+          <div class="comp-desc">Componentes sociales del sistema. Parcialmente documentados, implementación en curso.</div>
+          <div class="comp-meta">
+            <span class="comp-files">22KB spec</span>
+            <span class="pct-badge pct-mid">40%</span>
+          </div>
+          <div class="progress-wrap"><div class="progress-bar fill-40"></div></div>
+        </div>
+
+        <div class="comp-card mid">
+          <div class="comp-name">LANG_IDE · DEPLOY</div>
+          <div class="comp-desc">Cloud, local y pipeline CI/CD. Terraform + Kubernetes configurado pero no completado.</div>
+          <div class="comp-meta">
+            <span class="comp-files">21 archivos .tf</span>
+            <span class="pct-badge pct-mid">70%</span>
+          </div>
+          <div class="progress-wrap"><div class="progress-bar fill-70"></div></div>
+        </div>
+
+        <div class="comp-card high">
+          <div class="comp-name">LAST_DINNER</div>
+          <div class="comp-desc">Integración confirmada. 3 endpoints activos en notaria_router.py. Sesiones y sellado funcionales.</div>
+          <div class="comp-meta">
+            <span class="comp-files">6 archivos .py</span>
+            <span class="pct-badge pct-high">85%</span>
+          </div>
+          <div class="progress-wrap"><div class="progress-bar fill-85"></div></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ARQUITECTURA -->
+    <section id="arquitectura">
+      <div class="section-header">
+        <span class="section-num">03</span>
+        <h2 class="section-title">Arquitectura del Sistema</h2>
+      </div>
+
+      <div class="arch-diagram">
+<pre>
+  ┌──────────────────────────────────────────────────────────────┐
+  │                    SUITE(ZZZ) — AXIS                         │
+  │            MASTER · MAIN · INDEX · HOME                      │
+  └──────────────────┬───────────────────────────────────────────┘
+                     │
+       ┌─────────────┼──────────────┐
+       │             │              │
+  ┌────▼────┐   ┌────▼────┐   ┌────▼──────────┐
+  │  DIRIME │   │  LACHO  │   │   LANG_IDE     │
+  │ v0.4.1  │   │ Soberano│   │   v0.1.0       │
+  └────┬────┘   └────┬────┘   └────┬───────────┘
+       │             │              │
+  ┌────▼────────┐    │    ┌─────────▼─────────┐
+  │ IMV  CTRL   │    │    │ CORE  TOOLS  SEC  │
+  │ RAG  LEDGER │    │    │ DEPLOY  K8s  TF   │
+  │ NOTARIA     │◄───┘    └───────────────────┘
+  │ LAST_DINNER │
+  └─────────────┘
+       │
+  ┌────▼────────────────────────────────┐
+  │  DEPLOY — Cloudflare Edge + Supabase│
+  │  /api/scalar  /api/notaria  /health │
+  └─────────────────────────────────────┘
+</pre>
+      </div>
+
+      <div style="margin-top:16px">
+        <div class="scale-system">
+          <div class="scale-row">
+            <span class="scale-name">DIRIME (Sistema OS)</span>
+            <div class="scale-track"><div class="scale-fill fill-90"></div></div>
+            <span class="scale-pct">90%</span>
+          </div>
+          <div class="scale-row">
+            <span class="scale-name">LACHO (Lenguaje)</span>
+            <div class="scale-track"><div class="scale-fill fill-85"></div></div>
+            <span class="scale-pct">85%</span>
+          </div>
+          <div class="scale-row">
+            <span class="scale-name">LANG_IDE (Entorno)</span>
+            <div class="scale-track"><div class="scale-fill fill-85"></div></div>
+            <span class="scale-pct">85%</span>
+          </div>
+          <div class="scale-row">
+            <span class="scale-name">DESIGN_MODE (Árbol)</span>
+            <div class="scale-track"><div class="scale-fill fill-90"></div></div>
+            <span class="scale-pct">90%</span>
+          </div>
+          <div class="scale-row">
+            <span class="scale-name">DEPLOY (Cloud)</span>
+            <div class="scale-track"><div class="scale-fill fill-70"></div></div>
+            <span class="scale-pct">70%</span>
+          </div>
+          <div class="scale-row">
+            <span class="scale-name">MICRO_ARCHITECTURE</span>
+            <div class="scale-track"><div class="scale-fill fill-45"></div></div>
+            <span class="scale-pct">45%</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:20px">
+        <div class="tech-tags">
+          <span class="tech-tag">Python 3.x</span>
+          <span class="tech-tag">LACHO v1.0</span>
+          <span class="tech-tag">FastAPI</span>
+          <span class="tech-tag">Cloudflare Workers</span>
+          <span class="tech-tag">Kubernetes</span>
+          <span class="tech-tag">Terraform</span>
+          <span class="tech-tag">Supabase</span>
+          <span class="tech-tag">Post-Quantum Crypto</span>
+          <span class="tech-tag">RAG System</span>
+          <span class="tech-tag">SQLite / Ledger</span>
+          <span class="tech-tag">Theater Macros</span>
+          <span class="tech-tag">GDPR / SOC2</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTS -->
+    <section id="tests">
+      <div class="section-header">
+        <span class="section-num">04</span>
+        <h2 class="section-title">Estado de Tests — 203/203 ✓</h2>
+      </div>
+
+      <div class="tests-row">
+        <span class="test-name">LANG_IDE · Quantum Security</span>
+        <span class="test-result test-pass">PASS</span>
+        <span class="test-count">22/22</span>
+      </div>
+      <div class="tests-row">
+        <span class="test-name">LANG_IDE · Compliance Engine</span>
+        <span class="test-result test-pass">PASS</span>
+        <span class="test-count">15/15</span>
+      </div>
+      <div class="tests-row">
+        <span class="test-name">DIRIME · Foundation</span>
+        <span class="test-result test-pass">PASS</span>
+        <span class="test-count">2/2</span>
+      </div>
+      <div class="tests-row">
+        <span class="test-name">DIRIME · Grammar</span>
+        <span class="test-result test-pass">PASS</span>
+        <span class="test-count">9/9</span>
+      </div>
+      <div class="tests-row">
+        <span class="test-name">DIRIME · Ledger</span>
+        <span class="test-result test-pass">PASS</span>
+        <span class="test-count">4/4</span>
+      </div>
+      <div class="tests-row">
+        <span class="test-name">DIRIME · SAMU</span>
+        <span class="test-result test-pass">PASS</span>
+        <span class="test-count">2/2</span>
+      </div>
+      <div class="tests-row">
+        <span class="test-name">DIRIME · Extensions</span>
+        <span class="test-result test-pass">PASS</span>
+        <span class="test-count">6/6</span>
+      </div>
+      <div class="tests-row">
+        <span class="test-name">DIRIME · Generation</span>
+        <span class="test-result test-pass">PASS</span>
+        <span class="test-count">6/6</span>
+      </div>
+      <div class="tests-row">
+        <span class="test-name">DIRIME · Notaria (completo)</span>
+        <span class="test-result test-pass">PASS</span>
+        <span class="test-count">15/15</span>
+      </div>
+      <div class="tests-row" style="border-bottom:2px solid var(--border); font-weight:600">
+        <span class="test-name">TOTAL</span>
+        <span class="test-result test-pass">PASS</span>
+        <span class="test-count">203/203</span>
+      </div>
+    </section>
+
+    <!-- TAREAS -->
+    <section id="tareas">
+      <div class="section-header">
+        <span class="section-num">05</span>
+        <h2 class="section-title">Tareas Completadas Recientes</h2>
+      </div>
+
+      <ul class="task-list">
+        <li>
+          <span class="task-tick">✓</span>
+          <span><strong>Cloudflare Worker:</strong> Integración real con backend DIRIME. Endpoints /scalar, /validate, /notaria con fallback local y cache 10s.</span>
+        </li>
+        <li>
+          <span class="task-tick">✓</span>
+          <span><strong>UX-UI Terminal module:</strong> Modos LOCAL_LOW_RAM, VIRTUAL_CLOUD, HYBRID. Capas MASTER/MAIN/INDEX/HOME.</span>
+        </li>
+        <li>
+          <span class="task-tick">✓</span>
+          <span><strong>LAST_DINNER integrado:</strong> 3 endpoints en notaria_router.py. Sistema de sesiones y sellado funcional.</span>
+        </li>
+        <li>
+          <span class="task-tick">✓</span>
+          <span><strong>Optimización sin pérdida:</strong> 329KB → 169KB (-49%). 203/203 tests intactos. Scalar S 0.248 mantenido.</span>
+        </li>
+        <li>
+          <span class="task-tick">✓</span>
+          <span><strong>PRAGMA DIGITAL v2.3.1:</strong> Análisis de compatibilidad completado. Integración inmediata aprobada.</span>
+        </li>
+        <li>
+          <span class="task-tick">✓</span>
+          <span><strong>Ledger:</strong> 47 transacciones activas preservadas. Pipeline notaria completo.</span>
+        </li>
+        <li>
+          <span class="task-tick pending">✓</span>
+          <span style="color:var(--steel)"><strong>PENDIENTE:</strong> Integrar diagramas SVG de PRAGMA DIGITAL en DESIGN_MODE/DIAGRAMS/PRAGMA/.</span>
+        </li>
+        <li>
+          <span class="task-tick pending">✓</span>
+          <span style="color:var(--steel)"><strong>PENDIENTE:</strong> Módulo PRAGMA_DIGITAL en LANG_IDE. Tesina overmatrix_paper_tesina_dimension.pdf por revisar.</span>
+        </li>
+        <li>
+          <span class="task-tick pending">✓</span>
+          <span style="color:var(--steel)"><strong>PENDIENTE:</strong> MICRO_SOCIAL y MICRO_CRYPTO completar implementación (actualmente ~40%).</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- DECISIONES -->
+    <section id="decisiones">
+      <div class="section-header">
+        <span class="section-num">06</span>
+        <h2 class="section-title">Puntos para Decidir</h2>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+        <div style="background:var(--cream); border:1px solid var(--border); border-top:3px solid var(--amber); padding:20px">
+          <div style="font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--amber); margin-bottom:10px">Integración PRAGMA</div>
+          <p style="font-size:11px; color:var(--ink-light); line-height:1.7; font-family:'Libre Baskerville',serif">
+            ¿Integrar ahora los 5 diagramas SVG y 4 paneles HTML de PRAGMA DIGITAL v2.3.1? 
+            El análisis indica compatibilidad 100% y sin conflictos. Beneficio: +200% documentación visual.
+          </p>
+        </div>
+        <div style="background:var(--cream); border:1px solid var(--border); border-top:3px solid var(--sage); padding:20px">
+          <div style="font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--sage); margin-bottom:10px">Deploy Cloud</div>
+          <p style="font-size:11px; color:var(--ink-light); line-height:1.7; font-family:'Libre Baskerville',serif">
+            Cloudflare Worker + Supabase están al 70%. ¿Es el momento de completar el despliegue cloud, 
+            o priorizar completar MICRO_SOCIAL/CRYPTO primero?
+          </p>
+        </div>
+        <div style="background:var(--cream); border:1px solid var(--border); border-top:3px solid var(--steel); padding:20px">
+          <div style="font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--steel); margin-bottom:10px">Tesina Overmatrix</div>
+          <p style="font-size:11px; color:var(--ink-light); line-height:1.7; font-family:'Libre Baskerville',serif">
+            overmatrix_paper_tesina_dimension.pdf sin revisar. Podría contener conceptos avanzados 
+            para Phase 5. ¿Priorizar su análisis?
+          </p>
+        </div>
+        <div style="background:var(--cream); border:1px solid var(--border); border-top:3px solid var(--rust); padding:20px">
+          <div style="font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--rust); margin-bottom:10px">Phase 5 Bootstrap</div>
+          <p style="font-size:11px; color:var(--ink-light); line-height:1.7; font-family:'Libre Baskerville',serif">
+            BOOTSTRAPPING Phase 5 tiene componentes listos (PRAGMA DIGITAL). 
+            ¿Cuándo iniciar la transición a Phase 5 dado el estado actual del sistema?
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside>
+    <div class="sticky-aside">
+
+      <div class="aside-card">
+        <div class="aside-title">Estado por Sistema</div>
+        <table class="status-table">
+          <tr>
+            <td><span class="dot dot-green"></span>DIRIME v0.4.1</td>
+            <td>~90% impl.</td>
+          </tr>
+          <tr>
+            <td><span class="dot dot-green"></span>LANG_IDE v0.1.0</td>
+            <td>~85% impl.</td>
+          </tr>
+          <tr>
+            <td><span class="dot dot-green"></span>LACHO (lenguaje)</td>
+            <td>formal ✓</td>
+          </tr>
+          <tr>
+            <td><span class="dot dot-green"></span>DESIGN_MODE</td>
+            <td>~90% impl.</td>
+          </tr>
+          <tr>
+            <td><span class="dot dot-yellow"></span>DEPLOY Cloud</td>
+            <td>~70% impl.</td>
+          </tr>
+          <tr>
+            <td><span class="dot dot-yellow"></span>MICRO_ARCH</td>
+            <td>~45% impl.</td>
+          </tr>
+          <tr>
+            <td><span class="dot dot-green"></span>Tests suite</td>
+            <td>203/203</td>
+          </tr>
+          <tr>
+            <td><span class="dot dot-green"></span>Scalar S</td>
+            <td>0.248 ✓</td>
+          </tr>
+          <tr>
+            <td><span class="dot dot-green"></span>Ledger</td>
+            <td>47 tx activas</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="aside-card">
+        <div class="aside-title">Archivos por Sistema</div>
+        <table class="status-table">
+          <tr>
+            <td>DIRIME ACTUAL</td>
+            <td>823 archivos</td>
+          </tr>
+          <tr>
+            <td>LANG_IDE v0.1.0</td>
+            <td>268 archivos</td>
+          </tr>
+          <tr>
+            <td>DESIGN_MODE</td>
+            <td>106 archivos</td>
+          </tr>
+          <tr>
+            <td>RUNTIME</td>
+            <td>(en DIRIME)</td>
+          </tr>
+          <tr>
+            <td>TOTAL</td>
+            <td>1,197+</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="aside-card">
+        <div class="aside-title">Principio Rector</div>
+        <p style="font-family:'Libre Baskerville',serif; font-style:italic; font-size:11px; color:var(--ink-light); line-height:1.7">
+          "Solo funcionalidad prioritaria — todo lo demás es contaminación."
+        </p>
+        <p style="font-size:10px; color:var(--steel-light); margin-top:8px; letter-spacing:0.05em">
+          POLÍTICA FUNCIONAL — 2026-04-01
+        </p>
+      </div>
+
+      <div class="aside-card">
+        <div class="aside-title">Compatibilidad Confirmada</div>
+        <table class="status-table">
+          <tr>
+            <td>PRAGMA DIGITAL</td>
+            <td style="color:var(--green-ok); font-weight:600">100%</td>
+          </tr>
+          <tr>
+            <td>DIRIME paradigma</td>
+            <td style="color:var(--green-ok); font-weight:600">100%</td>
+          </tr>
+          <tr>
+            <td>LACHO lenguaje</td>
+            <td style="color:var(--green-ok); font-weight:600">100%</td>
+          </tr>
+          <tr>
+            <td>AXIS deploy</td>
+            <td style="color:var(--green-ok); font-weight:600">100%</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="aside-card">
+        <div class="aside-title">Archivos de Origen Analizados</div>
+        <ul class="task-list">
+          <li>
+            <span class="task-tick">✓</span>
+            <span>trabajo_comprimido (823 arch.)</span>
+          </li>
+          <li>
+            <span class="task-tick">✓</span>
+            <span>reportes (31 reportes .md)</span>
+          </li>
+          <li>
+            <span class="task-tick">✓</span>
+            <span>documentations (docs anidadas)</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </aside>
+
+</main>
+
+<footer>
+  <span>SUITE(ZZZ) — CLAUDE_AUDITOR v1.0 — Generado 2026-04-03</span>
+  <span>Modificable por Claude · <a href="#resumen">↑ Inicio</a></span>
+</footer>
+
+<script>
+  // Active nav on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`nav a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+
+  sections.forEach(s => observer.observe(s));
+
+  // Smooth progress animation on visible
+  const progBars = document.querySelectorAll('.scale-fill');
+  const progObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.animationPlayState = 'running';
+      }
+    });
+  });
+  progBars.forEach(b => progObserver.observe(b));
+</script>
+</body>
+</html>

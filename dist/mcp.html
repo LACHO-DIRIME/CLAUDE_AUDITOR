@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCP Registry · elpulsar.app</title>
+  <link rel="stylesheet" href="/assets/css/windsurf-theme.css">
+  <script src="/assets/js/theme.js"></script>
+  <script src="/i18n/i18n.js"></script>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="lang-toggle">
+      <button class="lang-btn" onclick="switchLang('en')">EN</button>
+      <button class="lang-btn active" onclick="switchLang('es')">ES</button>
+      <button class="lang-btn" onclick="switchLang('zh')">中文</button>
+    </div>
+    <div class="theme-toggle">
+      <button class="theme-btn" onclick="toggleTheme()">
+        <span id="theme-icon">🌙</span>
+        <span id="theme-label">Dark</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="nav">
+      <a href="/lastdinner.html">← Last Dinner</a>
+      <a href="/">Dashboard →</a>
+    </div>
+
+    <header>
+      <h1 data-i18n="mcp.title">🔌 MCP Registry</h1>
+      <p class="tagline" data-i18n="mcp.subtitle">Model Context Protocol Servers · LACHO Ecosystem</p>
+    </header>
+
+    <div class="info-box">
+      <h3 data-i18n="mcp.whatIsMCP">¿Que es MCP?</h3>
+      <p data-i18n="mcp.mcpDescription">Model Context Protocol permite que Claude y otros LLMs se conecten directamente a herramientas y recursos de elpulsar.app.</p>
+    </div>
+
+    <div class="servers-grid" id="servers-container"></div>
+
+    <footer>
+      <p>SPRINT 7 · S3 · <span data-i18n="nav.mcp">MCP Servers Soberanos</span></p>
+      <p data-i18n="footer.termActive">[term] :: activo · [seal of secrecy] :: activo</p>
+    </footer>
+  </div>
+
+  <script>
+    async function loadServers() {
+      try {
+        const res = await fetch('/api/mcp/registry');
+        const data = await res.json();
+        renderServers(data.servers || []);
+      } catch (e) {
+        console.error('Error loading MCP servers:', e);
+        renderServers([
+          {
+            name: 'elpulsar-mcp',
+            version: '0.1.0',
+            endpoint: 'stdio',
+            tools: ['elpulsar_health', 'elpulsar_scalar', 'elpulsar_list_resources', 'notaria_register_act'],
+            active: true
+          },
+          {
+            name: 'dirime-mcp',
+            version: '0.1.0',
+            endpoint: 'stdio',
+            tools: ['dirime_get_state', 'dirime_run_agent', 'last_dinner_status'],
+            active: true
+          }
+        ]);
+      }
+    }
+
+    function renderServers(servers) {
+      const container = document.getElementById('servers-container');
+      container.innerHTML = servers.map(server => `
+        <div class="server-card">
+          <div class="server-header">
+            <span class="server-name">${server.name}</span>
+            <span class="server-version">v${server.version}</span>
+          </div>
+          <div class="server-meta">
+            <span class="status-badge ${server.active ? 'active' : 'inactive'}">
+              ${server.active ? '●' : '○'} ${server.active ? 'Active' : 'Inactive'}
+            </span>
+            <span>Transport: ${server.endpoint}</span>
+          </div>
+          <div class="tools-list">
+            <h4>Tools (${server.tools.length})</h4>
+            ${server.tools.map(tool => `<span class="tool-tag">${tool}</span>`).join('')}
+          </div>
+          <div class="config-box">
+            <h4>Configuracion para Claude Desktop</h4>
+            <pre>{
+  "mcpServers": {
+    "${server.name}": {
+      "command": "python",
+      "args": [
+        "mcp-servers/${server.name}/server.py"
+      ]
+    }
+  }
+}</pre>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    loadServers();
+    setInterval(loadServers, 30000);
+
+    // Language persistence
+    function switchLang(lang) {
+      localStorage.setItem('elpulsar-lang', lang);
+      document.querySelectorAll('.lang-toggle .lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.textContent.toLowerCase().includes(lang)) {
+          btn.classList.add('active');
+        }
+      });
+      // Apply i18n translations
+      if (typeof i18n !== 'undefined') {
+        i18n.loadTranslations(lang).then(() => i18n.applyTranslations());
+      }
+    }
+    
+    // Init language
+    const savedLang = localStorage.getItem('elpulsar-lang') || 'es';
+    switchLang(savedLang);
+  </script>
+</body>
+</html>
